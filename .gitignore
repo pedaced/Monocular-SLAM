@@ -1,0 +1,23 @@
+# --- ROS 2 Generated Folders ---
+install/
+build/
+log/
+
+# --- Python Bytecode ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# --- ROS 2 Python Specific ---
+# Created during 'colcon build' for Python packages
+*.egg-info/
+
+# --- OS / IDE Specific ---
+.DS_Store
+.vscode/
+.idea/
+.env
+
+# --- Docker Local specific ---
+*.log
