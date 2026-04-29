@@ -25,6 +25,7 @@ class WebcamPublisher(Node):
             msg = self.br.cv2_to_imgmsg(frame, encoding="bgr8")
             self.publisher_.publish(msg)
             self.get_logger().info('Publishing video frame')
+            print('Published the image from webcam ')
 
 def main(args=None):
     rclpy.init(args=args)

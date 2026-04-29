@@ -5,15 +5,17 @@ source install/setup.bash
 
 tmux start-server
 
-# 1. Create the session with the Camera (Top Left)
+# Pane 0: Camera
 tmux new-session -d -s slam_session "/bin/bash /slam-ros/entrypoints/camera_entrypoint.sh"
 
-# 2. Split vertically for SLAM (Top Right)
-tmux split-window -h -t slam_session "/bin/bash /slam-ros/entrypoints/slam_entrypoint.sh"
+# Pane 1: SLAM (Vertical split under camera)
+tmux split-window -v -t slam_session "/bin/bash /slam-ros/entrypoints/slam_entrypoint.sh"
 
-# 3. Split horizontally to create a small 'Control' pane at the bottom
-# The 'kill-session' command ensures that when this bash shell exits, everyone dies.
-tmux split-window -v -p 20 -t slam_session "bash -c 'echo \"CONTROL TERMINAL: Type exit to shutdown all nodes.\"; bash; tmux kill-session -t slam_session'"
+# Pane 2: RViz (Horizontal split to the right)
+tmux split-window -h -p 60 -t slam_session "source install/setup.bash && rviz2"
 
-# 4. Attach
+# Pane 3: Control (Vertical split under SLAM)
+tmux select-pane -t 1
+tmux split-window -v -p 30 -t slam_session "bash -c 'echo \"CONTROLS: Ctrl+b then arrows to move. Type exit here to quit.\"; bash; tmux kill-session -t slam_session'"
+
 tmux attach-session -t slam_session

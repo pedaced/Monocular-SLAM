@@ -1,15 +1,14 @@
 #!/bin/bash
 
-# Allow Docker to talk to your display if needed
-
-xhost +local:docker
+# Give Docker permission to show windows on your host screen
+xhost +local:docker > /dev/null
 
 docker run -it --rm \
-    --name camera_publisher \
+    --name slam_container \
+    --privileged \
+    --net=host \
     --device=/dev/video0:/dev/video0 \
     -e DISPLAY=$DISPLAY \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
     -v $(pwd):/slam-ros \
-    --net=host \
-    slam-ros /slam-ros/entrypoints/master_entrypoint.sh
-
+    slam-ros /bin/bash /slam-ros/entrypoints/master_entrypoint.sh

@@ -14,6 +14,12 @@ RUN apt-get update && apt-get install -y \
 
 RUN apt-get update && apt-get install -y tmux && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y \
+    ros-humble-rviz2 \
+    libqt5gui5 \
+    libxcb-xinerama0 \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR slam-ros
 
 COPY entrypoints/ /entrypoints
